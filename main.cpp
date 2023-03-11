@@ -193,11 +193,13 @@ vector<vector<bool>> calculateNewGrid(vector<vector<bool>> grid){
     for (auto& p : deadCellsToCheck) {
         int x = p.first;
         int y = p.second;
+
         int xm = xWrap(x-1, grid_width);
         int ym = yWrap(y-1, grid_height);
         int xp = xWrap(x+1, grid_width);
         int yp = yWrap(y+1, grid_height);
 
+        counter = 0;
         if(grid[xm][ym]){
             counter++;
         }
@@ -234,9 +236,9 @@ vector<vector<bool>> calculateNewGrid(vector<vector<bool>> grid){
             newGrid[x][y] = true;
             newTrueCoordinates.push_back(make_pair(x, y));
         }
-        counter = 0; 
     }
-    trueCoordinates.clear();
+
+    // reset trueCoordinates to the new set of true coordinates
     trueCoordinates = newTrueCoordinates;
 
     return newGrid;
