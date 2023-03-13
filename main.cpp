@@ -7,12 +7,12 @@
 
 using namespace std;
 
-const int columns = 15;
-const int rows = 15;
+const int columns = 30;
+const int rows = 30;
 vector<pair<int, int>> trueCoordinates;
 
 void delay() {
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
 }
 
 vector<vector<bool>> initialGrid(int numberOfActiveCoordinates){
@@ -98,25 +98,11 @@ string getOutPutGrid(vector<vector<bool>> grid){
     return outputGrid;
 }
 
-int xWrap(int x, int grid_width){
-    if (x < 0) {
-        x = (x % grid_width + grid_width) % grid_width;
-    }
-    return x;
-}
-
-int yWrap(int y, int grid_height){
-    if (y < 0) {
-        y = (y % grid_height + grid_height) % grid_height;
-    }
-    return y;
-}
-
 // rules for game of life:
 // stay a live if 2-3 live neighbours, otherwise dead
 // born if a dead cell has exact 3 neighbours
 vector<vector<bool>> calculateNewGrid(vector<vector<bool>> grid){
-    vector<vector<bool>> newGrid(rows, vector<bool>(columns, false));
+    vector<vector<bool>> newGrid(grid.size(), vector<bool>(grid[0].size(), false));
     vector<pair<int, int>> newTrueCoordinates;
     vector<pair<int, int>> deadCellsToCheck;
     int grid_width = grid[0].size();
@@ -129,11 +115,18 @@ vector<vector<bool>> calculateNewGrid(vector<vector<bool>> grid){
         int x = p.first;
         int y = p.second;
 
-        int xm = xWrap(x-1, grid_width);
-        int ym = yWrap(y-1, grid_height);
-        int xp = xWrap(x+1, grid_width);
-        int yp = yWrap(y+1, grid_height);
+        int xm = (x-1 < 0 ? grid_width - 1: x-1);
+        int ym = (y-1 < 0 ? grid_height - 1: y-1);
+        int xp = (x+1 > grid_width - 1? 0 : x+1);
+        int yp = (y+1 > grid_height - 1? 0 : y+1);
 
+/*
+        cout << "True cells: " << endl;
+        cout << "xm: " << xm << endl;
+        cout << "ym: " << ym << endl;
+        cout << "xp: " << xp << endl;
+        cout << "yp: " << yp << endl;
+*/
         if(grid[xm][ym]){
             counter++;
         }else{
@@ -186,7 +179,9 @@ vector<vector<bool>> calculateNewGrid(vector<vector<bool>> grid){
             newGrid[x][y] = true;
             newTrueCoordinates.push_back(make_pair(x, y));
         }
+        //cout << counter << endl;
         counter = 0;
+        //cout << counter << endl;
     }
 
     // check which coordinates to be born
@@ -194,11 +189,17 @@ vector<vector<bool>> calculateNewGrid(vector<vector<bool>> grid){
         int x = p.first;
         int y = p.second;
 
-        int xm = xWrap(x-1, grid_width);
-        int ym = yWrap(y-1, grid_height);
-        int xp = xWrap(x+1, grid_width);
-        int yp = yWrap(y+1, grid_height);
-
+        int xm = (x-1 < 0 ? grid_width - 1: x-1);
+        int ym = (y-1 < 0 ? grid_height - 1: y-1);
+        int xp = (x+1 > grid_width - 1? 0 : x+1);
+        int yp = (y+1 > grid_height - 1? 0 : y+1);
+        /*
+        cout << "Dead cells: " << endl;
+        cout << "xm: " << xm << endl;
+        cout << "ym: " << ym << endl;
+        cout << "xp: " << xp << endl;
+        cout << "yp: " << yp << endl;
+*/
         counter = 0;
         if(grid[xm][ym]){
             counter++;
@@ -239,6 +240,7 @@ vector<vector<bool>> calculateNewGrid(vector<vector<bool>> grid){
     }
 
     // reset trueCoordinates to the new set of true coordinates
+    deadCellsToCheck.clear();
     trueCoordinates = newTrueCoordinates;
 
     return newGrid;
@@ -251,6 +253,7 @@ int main() {
     vector<vector<bool>> newGrid;
 
     while(true){
+        cout << " " << endl;
         cout << outputGrid;
         delay();
         newGrid = calculateNewGrid(grid);
