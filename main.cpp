@@ -12,7 +12,7 @@ const int columns = 30;
 const int rows = 30;
 
 void delay() {
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
 }
 
 vector<vector<bool>> initialGrid(int numberOfActiveCoordinates, vector<pair<int, int>>* trueCoordinates){
@@ -267,16 +267,25 @@ vector<vector<bool>> defaultGrids(vector<pair<int, int>>* trueCoordinates){
                 grid[5][5] = true;
                 grid[6][5] = true;
                 grid[7][5] = true;
+                trueCoordinates->push_back(make_pair(5,5));
+                trueCoordinates->push_back(make_pair(6,5));
+                trueCoordinates->push_back(make_pair(7,5));
             }
             if(x == 3){ //todo
                 grid[5][5] = true;
                 grid[6][5] = true;
                 grid[7][5] = true;
+                trueCoordinates->push_back(make_pair(5,5));
+                trueCoordinates->push_back(make_pair(6,5));
+                trueCoordinates->push_back(make_pair(7,5));
             }
             if(x == 4){ //todo
                 grid[5][5] = true;
                 grid[6][5] = true;
                 grid[7][5] = true;
+                trueCoordinates->push_back(make_pair(5,5));
+                trueCoordinates->push_back(make_pair(6,5));
+                trueCoordinates->push_back(make_pair(7,5));
             }
             break;
         }
