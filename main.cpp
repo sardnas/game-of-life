@@ -28,8 +28,8 @@ vector<vector<bool>> initialGrid(int numberOfActiveCoordinates){
             cin >> input;
             try {
                 x = stoi(input);
-                if (x < 1 || x > 15) {
-                    throw out_of_range("Invalid input. Number must be between 1 and 15.");
+                if (x < 1 || x > rows) {
+                    throw out_of_range("Invalid input.");
                 }
                 break;
             }
@@ -43,8 +43,8 @@ vector<vector<bool>> initialGrid(int numberOfActiveCoordinates){
             cin >> input;
             try {
                 y = stoi(input);
-                if (x < 1 || x > 15) {
-                    throw out_of_range("Invalid input. Number must be between 1 and 15.");
+                if (x < 1 || x > columns) {
+                    throw out_of_range("Invalid input.");
                 }
                 break;
             }
